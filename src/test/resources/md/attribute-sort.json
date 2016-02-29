@@ -1,0 +1,114 @@
+{
+  "attribute": {
+    "content": {
+      "direction": "asc",
+      "sort": {
+        "df": {
+          "uri": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1806"
+        }
+      },
+      "pk": [
+        {
+          "data": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1071",
+          "type": "col"
+        }
+      ],
+      "dimension": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1084",
+      "displayForms": [
+        {
+          "content": {
+            "formOf": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1095",
+            "expression": "[/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1803]"
+          },
+          "links": {
+            "elements": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1805/elements"
+          },
+          "meta": {
+            "author": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff",
+            "uri": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1805",
+            "tags": "",
+            "created": "2016-02-29 04:28:59",
+            "identifier": "label.stage.name.stagename",
+            "deprecated": "0",
+            "summary": "",
+            "isProduction": 1,
+            "title": "Stage Name",
+            "category": "attributeDisplayForm",
+            "updated": "2016-02-29 04:28:59",
+            "contributor": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff"
+          }
+        },
+        {
+          "content": {
+            "formOf": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1095",
+            "expression": "[/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1079]"
+          },
+          "links": {
+            "elements": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1096/elements"
+          },
+          "meta": {
+            "author": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff",
+            "uri": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1096",
+            "tags": "",
+            "created": "2016-02-29 04:28:59",
+            "identifier": "label.stage.name",
+            "deprecated": "0",
+            "summary": "",
+            "isProduction": 1,
+            "title": "Stage Name",
+            "category": "attributeDisplayForm",
+            "updated": "2016-02-29 04:28:59",
+            "contributor": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff"
+          }
+        },
+        {
+          "content": {
+            "formOf": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1095",
+            "expression": "[/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1801]"
+          },
+          "links": {
+            "elements": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1806/elements"
+          },
+          "meta": {
+            "author": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff",
+            "uri": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1806",
+            "tags": "",
+            "created": "2016-02-29 04:28:59",
+            "identifier": "label.stage.name.order",
+            "deprecated": "0",
+            "summary": "",
+            "isProduction": 1,
+            "title": "Order",
+            "category": "attributeDisplayForm",
+            "updated": "2016-02-29 04:28:59",
+            "contributor": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff"
+          }
+        }
+      ],
+      "fk": [
+        {
+          "data": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1138",
+          "type": "col"
+        },
+        {
+          "data": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1169",
+          "type": "col"
+        }
+      ]
+    },
+    "meta": {
+      "author": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff",
+      "uri": "/gdc/md/rr7h6nw18umbjre1ze6h71uybtx38sd8/obj/1095",
+      "tags": "",
+      "created": "2016-02-29 04:28:59",
+      "identifier": "attr.stage.name",
+      "deprecated": "0",
+      "summary": "",
+      "isProduction": 1,
+      "title": "Stage Name",
+      "category": "attribute",
+      "updated": "2016-02-29 04:28:59",
+      "contributor": "/gdc/account/profile/876ec68f5630b38de65852ed5d6236ff"
+    }
+  }
+}

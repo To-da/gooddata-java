@@ -83,4 +83,9 @@ public class AttributeTest {
         assertThat(attribute, serializesToJson("/md/attribute-inputOrig.json"));
     }
 
+    @Test
+    public void shouldDeserializeAttributeWithSort() throws Exception {
+        final InputStream stream = getClass().getResourceAsStream("/md/attribute-sort.json");
+        final Attribute attribute = new ObjectMapper().readValue(stream, Attribute.class);
+    }
 }
