@@ -6,6 +6,7 @@
 package com.gooddata.export;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gooddata.AbstractService;
 import com.gooddata.FutureResult;
@@ -149,7 +150,7 @@ public class ExportService extends AbstractService {
         try {
             final ResponseEntity<String> entity = restTemplate
                     .exchange(executionUri, POST, new HttpEntity<>(request), String.class);
-            return mapper.readTree(entity.getBody());
+            return MAPPER_PROVIDER.getReader().readTree(entity.getBody());
         } catch (GoodDataException | RestClientException e) {
             throw new ExportException("Unable to execute report", e);
         } catch (IOException e) {
@@ -160,8 +161,8 @@ public class ExportService extends AbstractService {
     private String exportReport(final JsonNode execResult, final ExportFormat format) {
         notNull(execResult, "execResult");
         notNull(format, "format");
-        final ObjectNode root = mapper.createObjectNode();
-        final ObjectNode child = mapper.createObjectNode();
+        final ObjectNode root = JsonNodeFactory.instance.objectNode();
+        final ObjectNode child = JsonNodeFactory.instance.objectNode();
 
         child.set("result", execResult);
         child.put("format", format.getValue());

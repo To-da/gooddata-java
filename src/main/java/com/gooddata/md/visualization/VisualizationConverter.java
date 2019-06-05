@@ -5,19 +5,7 @@
  */
 package com.gooddata.md.visualization;
 
-import static com.gooddata.executeafm.resultspec.Dimension.MEASURE_GROUP;
-import static com.gooddata.md.visualization.CollectionType.SEGMENT;
-import static com.gooddata.md.visualization.CollectionType.STACK;
-import static com.gooddata.md.visualization.CollectionType.TREND;
-import static com.gooddata.md.visualization.CollectionType.VIEW;
-import static com.gooddata.util.Validate.notNull;
-import static com.gooddata.util.Validate.isTrue;
-import static java.util.stream.Collectors.toList;
-
-
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooddata.executeafm.Execution;
 import com.gooddata.executeafm.afm.Afm;
 import com.gooddata.executeafm.afm.AttributeItem;
@@ -31,16 +19,27 @@ import com.gooddata.executeafm.afm.SimpleMeasureDefinition;
 import com.gooddata.executeafm.resultspec.Dimension;
 import com.gooddata.executeafm.resultspec.ResultSpec;
 import com.gooddata.executeafm.resultspec.SortItem;
+import com.gooddata.util.ObjectMapperProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.gooddata.executeafm.resultspec.Dimension.MEASURE_GROUP;
+import static com.gooddata.md.visualization.CollectionType.SEGMENT;
+import static com.gooddata.md.visualization.CollectionType.STACK;
+import static com.gooddata.md.visualization.CollectionType.TREND;
+import static com.gooddata.md.visualization.CollectionType.VIEW;
+import static com.gooddata.util.Validate.isTrue;
+import static com.gooddata.util.Validate.notNull;
+import static java.util.stream.Collectors.toList;
+
 /**
  * Helper class for converting {@link VisualizationObject} into {@link Execution}
  */
 public abstract class VisualizationConverter {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    protected final static ObjectMapperProvider MAPPER_PROVIDER = ObjectMapperProvider.instance();
 
     /**
      * Generate Execution from Visualization object.
@@ -139,10 +138,11 @@ public abstract class VisualizationConverter {
     }
 
     static List<SortItem> parseSorting(final String properties) throws Exception {
-        JsonNode jsonProperties = parseProperties(properties);
-        JsonNode nodeSortItems = jsonProperties.get("sortItems");
+//        JsonNode jsonProperties = parseProperties(properties);
+//        JsonNode nodeSortItems = jsonProperties.get("sortItems");
+//        return MAPPER_PROVIDER.getWriter().convertValue(nodeSortItems, mapType);
         TypeReference<List<SortItem>> mapType = new TypeReference<List<SortItem>>() {};
-        return MAPPER.convertValue(nodeSortItems, mapType);
+        return MAPPER_PROVIDER.getReader().at("/sortItems").forType(mapType).readValue(properties);
     }
 
     private static List<Dimension> getDimensions(final VisualizationObject visualizationObject,
@@ -234,9 +234,9 @@ public abstract class VisualizationConverter {
         return dimensions;
     }
 
-    private static JsonNode parseProperties(final String properties) throws Exception {
-        return MAPPER.readValue(properties, JsonNode.class);
-    }
+//    private static JsonNode parseProperties(final String properties) throws Exception {
+//        return MAPPER.readValue(properties, JsonNode.class);
+//    }
 
     private static List<AttributeItem> convertAttributes(final List<VisualizationAttribute> attributes) {
         return attributes.stream()

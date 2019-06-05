@@ -8,10 +8,10 @@ package com.gooddata.dataload.processes;
 import com.gooddata.AbstractPollHandler;
 import com.gooddata.AbstractService;
 import com.gooddata.FutureResult;
-import com.gooddata.GoodDataSettings;
-import com.gooddata.PollResult;
 import com.gooddata.GoodDataException;
 import com.gooddata.GoodDataRestException;
+import com.gooddata.GoodDataSettings;
+import com.gooddata.PollResult;
 import com.gooddata.SimplePollHandler;
 import com.gooddata.account.AccountService;
 import com.gooddata.collections.MultiPageList;
@@ -643,7 +643,7 @@ public class ProcessService extends AbstractService {
         try {
             ResponseEntity<String> exchange = restTemplate.exchange(postUri, method, new HttpEntity<>(process), String.class);
             if (exchange.getStatusCode() == HttpStatus.ACCEPTED) { //deployment worker will create process
-                AsyncTask asyncTask = mapper.readValue(exchange.getBody(), AsyncTask.class);
+                AsyncTask asyncTask = MAPPER_PROVIDER.getReader().forType(AsyncTask.class).readValue(exchange.getBody());
                 return new PollResult<>(this, new SimplePollHandler<DataloadProcess>(asyncTask.getUri(), DataloadProcess.class) {
 
                     @Override
@@ -652,7 +652,7 @@ public class ProcessService extends AbstractService {
                     }
                 });
             } else if (exchange.getStatusCode() == HttpStatus.OK) { //object has been found in package registry, deployment worker is not triggered
-                final DataloadProcess dataloadProcess = mapper.readValue(exchange.getBody(), DataloadProcess.class);
+                final DataloadProcess dataloadProcess = MAPPER_PROVIDER.getReader().forType(DataloadProcess.class).readValue(exchange.getBody());
                 return new PollResult<>(this, new SimplePollHandler<DataloadProcess>(dataloadProcess.getUri(), DataloadProcess.class) {
 
                     @Override

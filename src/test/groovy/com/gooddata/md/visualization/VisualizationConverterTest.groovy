@@ -6,6 +6,7 @@
 package com.gooddata.md.visualization
 
 import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.JsonMappingException
 import com.gooddata.executeafm.UriObjQualifier
 import org.joda.time.LocalDate
 import spock.lang.Specification
@@ -161,15 +162,16 @@ class VisualizationConverterTest extends Specification {
     }
 
     @Unroll
-    def "should throw JsonParseException"() {
+    def "should throw #exception.simpleName"() {
         when:
         parseSorting(properties)
-
+                                                 s
         then:
-        thrown(JsonParseException)
+        thrown(exception)
 
         where:
         properties << ['abcd', '{"sortItems":[{"someinvalidstring"}]}']
+        exception  << [JsonParseException, JsonMappingException]
     }
 
     def "should fail when incorrect visualization class is provided"() {

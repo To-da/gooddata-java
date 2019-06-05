@@ -157,7 +157,7 @@ public class DatasetService extends AbstractService {
                 dataStoreService.upload(dirPath + datasetManifest.getFile(), datasetManifest.getSource());
             }
 
-            final String manifestJson = mapper.writeValueAsString(new DatasetManifests(datasets));
+            final String manifestJson = MAPPER_PROVIDER.getWriter().writeValueAsString(new DatasetManifests(datasets));
             final ByteArrayInputStream inputStream = new ByteArrayInputStream(manifestJson.getBytes(UTF_8));
             dataStoreService.upload(dirPath + MANIFEST_FILE_NAME, inputStream);
 

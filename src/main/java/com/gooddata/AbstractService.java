@@ -1,15 +1,11 @@
 /*
- * Copyright (C) 2004-2017, GoodData(R) Corporation. All rights reserved.
+ * Copyright (C) 2004-2019, GoodData(R) Corporation. All rights reserved.
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
 package com.gooddata;
 
-import static com.gooddata.util.Validate.notNull;
-import static java.lang.String.format;
-import static org.springframework.http.HttpMethod.GET;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gooddata.util.ObjectMapperProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -24,6 +20,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
+import static com.gooddata.util.Validate.notNull;
+import static java.lang.String.format;
+import static org.springframework.http.HttpMethod.GET;
+
 /**
  * Parent for GoodData services providing helpers for REST API calls and polling.
  */
@@ -33,7 +33,12 @@ public abstract class AbstractService {
 
     private final GoodDataSettings settings;
 
-    protected final ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Shared single instance of {@link ObjectMapperProvider}. In subclasses {@link ObjectMapperProvider#getReader()}
+     * or {@link ObjectMapperProvider#getWriter()} will be used - returning fresh instance
+     * (which  can  be further configured creating  another immutable instance).
+     */
+    protected static final ObjectMapperProvider MAPPER_PROVIDER = ObjectMapperProvider.instance();
 
     private final ResponseExtractor<ClientHttpResponse> reusableResponseExtractor = ReusableClientHttpResponse::new;
 
@@ -42,7 +47,7 @@ public abstract class AbstractService {
      * this abstract one.
      *
      * @param restTemplate RESTful HTTP Spring template
-     * @param settings settings
+     * @param settings     settings
      */
     public AbstractService(final RestTemplate restTemplate, final GoodDataSettings settings) {
         this.restTemplate = notNull(restTemplate, "restTemplate");
@@ -61,7 +66,7 @@ public abstract class AbstractService {
         this(restTemplate, new GoodDataSettings());
     }
 
-    final <R> R poll(final PollHandler<?,R> handler, long timeout, final TimeUnit unit) {
+    final <R> R poll(final PollHandler<?, R> handler, long timeout, final TimeUnit unit) {
         notNull(handler, "handler");
         final long start = System.currentTimeMillis();
         while (true) {
@@ -80,7 +85,7 @@ public abstract class AbstractService {
         }
     }
 
-    final <P> boolean pollOnce(final PollHandler<P,?> handler) {
+    final <P> boolean pollOnce(final PollHandler<P, ?> handler) {
         notNull(handler, "handler");
         final ClientHttpResponse response;
         try {
