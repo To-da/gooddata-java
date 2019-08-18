@@ -5,10 +5,9 @@
  */
 package com.gooddata.connector;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.gooddata.util.GDDateSerializer;
 import com.gooddata.util.GoodDataToStringBuilder;
-import org.joda.time.LocalDate;
+
+import java.time.LocalDate;
 
 /**
  * Coupa connector process execution (i.e. definition for single ETL run). Serialization only.
@@ -31,7 +30,6 @@ public class CoupaProcessExecution implements ProcessExecution {
         this.incremental = incremental;
     }
 
-    @JsonSerialize(using = GDDateSerializer.class)
     public LocalDate getDownloadDataFrom() {
         return downloadDataFrom;
     }

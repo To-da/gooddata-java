@@ -9,21 +9,21 @@ import com.gooddata.executeafm.IdentifierObjQualifier
 import com.gooddata.executeafm.UriObjQualifier
 import nl.jqno.equalsverifier.EqualsVerifier
 import org.apache.commons.lang3.SerializationUtils
-import org.joda.time.LocalDate
 import spock.lang.Specification
+
+import java.time.LocalDate
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
 import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource
-import static org.joda.time.LocalDate.now
 import static spock.util.matcher.HamcrestSupport.that
 
 class AbsoluteDateFilterTest extends Specification {
 
     private static final String ABSOLUTE_DATE_FILTER_JSON = 'executeafm/afm/absoluteDateFilter.json'
 
-    private static final LocalDate FROM = new LocalDate(2017, 9, 25)
-    private static final LocalDate TO = new LocalDate(2017, 9, 30)
+    private static final LocalDate FROM = LocalDate.of(2017, 9, 25)
+    private static final LocalDate TO = LocalDate.of(2017, 9, 30)
 
     def "should serialize"() {
         expect:
@@ -47,7 +47,7 @@ class AbsoluteDateFilterTest extends Specification {
 
     def "should copy"() {
         when:
-        def filter = new AbsoluteDateFilter(new IdentifierObjQualifier("id"), now(), now())
+        def filter = new AbsoluteDateFilter(new IdentifierObjQualifier("id"), LocalDate.now(), LocalDate.now())
         def copy = filter.withObjUriQualifier(new UriObjQualifier("uri"))
 
         then:

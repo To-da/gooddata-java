@@ -6,19 +6,17 @@
 package com.gooddata.auditevent;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
-import com.gooddata.util.ISODateTimeSerializer;
-import org.joda.time.DateTime;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 /**
@@ -43,10 +41,10 @@ public class AuditEvent {
     private final String userLogin;
 
     /** the time the event occurred */
-    private final DateTime occurred;
+    private final ZonedDateTime occurred;
 
     /** the time event was recorded by audit system */
-    private final DateTime recorded;
+    private final ZonedDateTime recorded;
 
     private final String userIp;
 
@@ -63,8 +61,8 @@ public class AuditEvent {
     @JsonCreator
     public AuditEvent(@JsonProperty("id") String id,
                       @JsonProperty("userLogin") String userLogin,
-                      @JsonProperty("occurred") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime occurred,
-                      @JsonProperty("recorded") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime recorded,
+                      @JsonProperty("occurred") /* TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class) */ ZonedDateTime occurred,
+                      @JsonProperty("recorded") /* TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class) */ ZonedDateTime recorded,
                       @JsonProperty("userIp") String userIp,
                       @JsonProperty("success") boolean success,
                       @JsonProperty("type") String type,
@@ -92,16 +90,19 @@ public class AuditEvent {
     /**
      * the time the event occurred
      */
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getOccurred() {
+//TODO ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    @JsonSerialize(using = GdcZonedDateTimeAdapter.class)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", with = {JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID}, shape = JsonFormat.Shape.STRING)
+    //WORKS: .withZoneSameLocal(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ"))
+    public ZonedDateTime getOccurred() {
         return occurred;
     }
 
     /**
      * the time event was recorded by audit system
-     */
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getRecorded() {
+//     */
+//TODO ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    public ZonedDateTime getRecorded() {
         return recorded;
     }
 

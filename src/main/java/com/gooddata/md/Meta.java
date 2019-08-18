@@ -15,14 +15,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gooddata.util.BooleanDeserializer;
 import com.gooddata.util.BooleanIntegerSerializer;
 import com.gooddata.util.BooleanStringSerializer;
-import com.gooddata.util.GDDateTimeDeserializer;
-import com.gooddata.util.GDDateTimeSerializer;
 import com.gooddata.util.GoodDataToStringBuilder;
 import com.gooddata.util.TagsDeserializer;
 import com.gooddata.util.TagsSerializer;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.apache.commons.lang3.StringUtils.substring;
@@ -40,8 +38,8 @@ public class Meta implements Serializable {
 
     private String author;
     private String contributor;
-    private DateTime created;
-    private DateTime updated;
+    private LocalDateTime created;
+    private LocalDateTime updated;
     private String summary;
     private String title;
     private String category;
@@ -58,8 +56,8 @@ public class Meta implements Serializable {
     @JsonCreator
     protected Meta(@JsonProperty("author") String author,
                    @JsonProperty("contributor") String contributor,
-                   @JsonProperty("created") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime created,
-                   @JsonProperty("updated") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime updated,
+                   @JsonProperty("created") LocalDateTime created,
+                   @JsonProperty("updated") LocalDateTime updated,
                    @JsonProperty("summary") String summary,
                    @JsonProperty("title") String title,
                    @JsonProperty("category") String category,
@@ -97,11 +95,11 @@ public class Meta implements Serializable {
      * @param locked
      * @param unlisted
      * @param sharedWithSomeone
-     * @deprecated use {@link #Meta(String, String, DateTime, DateTime, String, String, String, Set,
+     * @deprecated use {@link #Meta(String, String, LocalDateTime, LocalDateTime, String, String, String, Set,
      * String, String, Boolean, Boolean, Boolean, Boolean, Boolean, Set)} instead
      */
     @Deprecated
-    public Meta(String author, String contributor, DateTime created, DateTime updated, String summary,
+    public Meta(String author, String contributor, LocalDateTime created, LocalDateTime updated, String summary,
                 String title, String category, Set<String> tags, String uri, String identifier,
                 Boolean deprecated, Boolean production, Boolean locked, Boolean unlisted,
                 Boolean sharedWithSomeone) {
@@ -129,7 +127,7 @@ public class Meta implements Serializable {
      * @param sharedWithSomeone
      * @param flags
      */
-    public Meta(String author, String contributor, DateTime created, DateTime updated, String summary,
+    public Meta(String author, String contributor, LocalDateTime created, LocalDateTime updated, String summary,
                 String title, String category, Set<String> tags, String uri, String identifier,
                 Boolean deprecated, Boolean production, Boolean locked, Boolean unlisted,
                 Boolean sharedWithSomeone, Set<String> flags) {
@@ -178,8 +176,7 @@ public class Meta implements Serializable {
         return contributor;
     }
 
-    @JsonSerialize(using = GDDateTimeSerializer.class)
-    public DateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
@@ -199,8 +196,7 @@ public class Meta implements Serializable {
         this.title = title;
     }
 
-    @JsonSerialize(using = GDDateTimeSerializer.class)
-    public DateTime getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 

@@ -5,21 +5,20 @@
  */
 package com.gooddata.project;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gooddata.md.Meta;
-import com.gooddata.util.BooleanDeserializer;
-import com.gooddata.util.GDDateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.gooddata.md.Meta;
+import com.gooddata.util.BooleanDeserializer;
 import com.gooddata.util.GoodDataToStringBuilder;
-import org.joda.time.DateTime;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -129,12 +128,12 @@ public class Project {
     }
 
     @JsonIgnore
-    public DateTime getCreated() {
+    public LocalDateTime getCreated() {
         return meta.getCreated();
     }
 
     @JsonIgnore
-    public DateTime getUpdated() {
+    public LocalDateTime getUpdated() {
         return meta.getUpdated();
     }
 
@@ -651,8 +650,8 @@ public class Project {
         @JsonCreator
         private ProjectMeta(@JsonProperty("author") String author,
                             @JsonProperty("contributor") String contributor,
-                            @JsonProperty("created") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime created,
-                            @JsonProperty("updated") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime updated,
+                            @JsonProperty("created") LocalDateTime created,
+                            @JsonProperty("updated") LocalDateTime updated,
                             @JsonProperty("summary") String summary,
                             @JsonProperty("title") String title,
                             @JsonProperty("category") String category,

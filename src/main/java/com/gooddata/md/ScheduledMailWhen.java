@@ -5,17 +5,13 @@
  */
 package com.gooddata.md;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gooddata.util.GDDateDeserializer;
-import com.gooddata.util.GDDateSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gooddata.util.GoodDataToStringBuilder;
-import org.joda.time.LocalDate;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Represents the start date and cron-like expression for {@link com.gooddata.md.ScheduledMail} mail schedule.
@@ -34,7 +30,7 @@ public class ScheduledMailWhen implements Serializable {
 
     @JsonCreator
     protected ScheduledMailWhen(@JsonProperty("recurrency") String recurrency,
-                                @JsonProperty("startDate") @JsonDeserialize(using = GDDateDeserializer.class) LocalDate startDate,
+                                @JsonProperty("startDate") LocalDate startDate,
                                 @JsonProperty("timeZone") String timeZone) {
         this.recurrency = recurrency;
         this.startDate = startDate;
@@ -45,7 +41,6 @@ public class ScheduledMailWhen implements Serializable {
 
     public String getRecurrency() { return recurrency; }
 
-    @JsonSerialize(using = GDDateSerializer.class)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public LocalDate getStartDate() { return startDate; }
 

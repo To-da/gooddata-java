@@ -5,8 +5,6 @@
  */
 package com.gooddata.dataload.processes;
 
-import static com.gooddata.util.Validate.notNullState;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,15 +12,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.gooddata.util.ISODateTimeDeserializer;
-import org.joda.time.DateTime;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static com.gooddata.util.Validate.notNullState;
 
 /**
  * Schedule execution
@@ -37,7 +35,7 @@ public class ScheduleExecution {
     public static final UriTemplate TEMPLATE = new UriTemplate(URI);
     private static final Set<String> FINISHED_STATUSES = new HashSet<>(Arrays.asList("OK", "ERROR", "CANCELED", "TIMEOUT"));
 
-    private DateTime created;
+    private LocalDateTime created;
     private String status;
     private String trigger;
     private String processLastDeployedBy;
@@ -47,7 +45,8 @@ public class ScheduleExecution {
     ScheduleExecution() {}
 
     @JsonCreator
-    private ScheduleExecution(@JsonProperty("createdTime") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime created,
+    private ScheduleExecution(@JsonProperty("createdTime") //TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                          LocalDateTime created,
                               @JsonProperty("status") String executionStatus,
                               @JsonProperty("trigger") String trigger,
                               @JsonProperty("processLastDeployedBy") String processLastDeployedBy,
@@ -67,7 +66,7 @@ public class ScheduleExecution {
         return links;
     }
 
-    public DateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 

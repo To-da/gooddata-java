@@ -5,12 +5,13 @@
  */
 package com.gooddata.connector;
 
+import org.testng.annotations.Test;
+
+import java.time.LocalDate;
+
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals;
 import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.joda.time.LocalDate;
-import org.testng.annotations.Test;
 
 public class CoupaProcessExecutionTest {
 
@@ -32,7 +33,7 @@ public class CoupaProcessExecutionTest {
     @Test
     public void shouldSerializeDownloadDataFrom() throws Exception {
         final CoupaProcessExecution execution = new CoupaProcessExecution();
-        execution.setDownloadDataFrom(new LocalDate(2018, 1, 25));
+        execution.setDownloadDataFrom(LocalDate.of(2018, 1, 25));
 
         assertThat(execution, jsonEquals(resource("connector/process-execution-coupa-downloadDate.json")));
     }

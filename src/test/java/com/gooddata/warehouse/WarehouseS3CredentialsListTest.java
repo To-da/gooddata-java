@@ -5,9 +5,9 @@
  */
 package com.gooddata.warehouse;
 
-import org.joda.time.DateTime;
 import org.testng.annotations.Test;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class WarehouseS3CredentialsListTest {
     );
     private final WarehouseS3Credentials credentials1 = new WarehouseS3Credentials("region", "accessKey",
              "secretKey",
-            DateTime.parse("2017-08-02T09:40:24.064Z"), credentials1Links);
+            LocalDateTime.parse("2017-08-02T09:40:24.064Z"), credentials1Links);
     private final WarehouseS3Credentials credentials2 = new WarehouseS3Credentials( "region2", "accessKey2",
             "secretKey2", null, null);
 

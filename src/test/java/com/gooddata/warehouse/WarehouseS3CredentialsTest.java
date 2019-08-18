@@ -8,8 +8,9 @@ package com.gooddata.warehouse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.DateTime;
 import org.testng.annotations.Test;
+
+import java.time.LocalDateTime;
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource;
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
@@ -28,7 +29,7 @@ public class WarehouseS3CredentialsTest {
     private static final String UPDATED_BY = "/gdc/datawarehouse/instances/instanceId/users/{user-id}";
     private static final String SECRET_KEY = "secretKey";
     private static final String NEW_SECRET_KEY = "newSecretKey";
-    private static final DateTime UPDATED_AT = DateTime.parse("2017-08-02T09:40:24.064Z");
+    private static final LocalDateTime UPDATED_AT = LocalDateTime.parse("2017-08-02T09:40:24.064Z");
     private static final String SELF_LINK = "/gdc/datawarehouse/instances/instanceId/s3/region/accessKey";
     private static final String PARENT_LINK = "/gdc/datawarehouse/instances/instanceId/s3";
     private static final String INSTANCE_LINK = "/gdc/datawarehouse/instances/instanceId";

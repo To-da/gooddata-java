@@ -8,17 +8,31 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.util.function.Consumer;
 
+/**
+ * Helper class exposing base for configuring {@link ObjectMapper} and exposing access to
+ * immutable {@link ObjectReader} & {@link ObjectWriter}.
+ * It's thread safe.
+ */
 public class ObjectMapperProvider {
 
     /**
-     * Mutable {@link ObjectMapper} is private and used only as base for immutable {@link ObjectReader} & {@link ObjectMapper}.
+     * Mutable {@link ObjectMapper} is private and used only as base for immutable {@link ObjectReader} & {@link ObjectWriter}.
      */
     private final ObjectMapper mapper;
 
     protected Consumer<ObjectMapper> mapperConfig = mapper -> {
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+
+//        DateTimeFormatter GDC_LOCAL_DATE_TIME = new DateTimeFormatterBuilder()
+//                .parseCaseInsensitive()
+//                .append(ISO_LOCAL_DATE)
+//                .appendLiteral(' ')
+//                .append(ISO_LOCAL_TIME)
+//                .toFormatter();
+//
+//        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(GDC_LOCAL_DATE_TIME));
+        mapper.registerModule(javaTimeModule);
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-        mapper.registerModule(new JavaTimeModule());
     };
 
     private ObjectMapperProvider() {

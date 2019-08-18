@@ -5,12 +5,13 @@
  */
 package com.gooddata.auditevent;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooddata.collections.Paging;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 
 import static com.gooddata.auditevent.AuditEvent.ADMIN_URI_TEMPLATE;
@@ -40,7 +41,7 @@ public class AuditEventsTest {
     private static final boolean SUCCESS = true;
     private static final String TYPE = "login";
 
-    private static final DateTime DATE = new LocalDate(1993, 3, 9).toDateTimeAtStartOfDay(DateTimeZone.UTC);
+    private static final ZonedDateTime DATE = ZonedDateTime.of(LocalDate.of(1993, 3, 9).atStartOfDay(), ZoneOffset.UTC);
     private static final AuditEvent EVENT_1 = new AuditEvent("123", USER1_LOGIN, DATE, DATE, IP, SUCCESS, TYPE, emptyMap(), emptyMap());
     private static final AuditEvent EVENT_2 = new AuditEvent("456", USER2_LOGIN, DATE, DATE, IP, SUCCESS, TYPE, emptyMap(), emptyMap());
 
@@ -69,6 +70,12 @@ public class AuditEventsTest {
 
     @Test
     public void testSerialize() throws Exception {
+        final ObjectMapper mapper = new ObjectMapper();
+//        mapper.registerModule(new JavaTimeModule());
+
+        System.out.println(mapper.writer().writeValueAsString(EVENTS));
+
+
         assertThat(EVENTS, jsonEquals(resource("auditevents/auditEvents.json")));
     }
 

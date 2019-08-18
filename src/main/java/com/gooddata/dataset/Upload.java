@@ -5,16 +5,17 @@
  */
 package com.gooddata.dataset;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.gooddata.util.BooleanDeserializer;
-import com.gooddata.util.GDDateTimeDeserializer;
 import com.gooddata.util.GoodDataToStringBuilder;
-import org.joda.time.DateTime;
 import org.springframework.web.util.UriTemplate;
+
+import java.time.LocalDateTime;
 
 /**
  * Contains information about single dataset upload.
@@ -34,17 +35,21 @@ public class Upload {
     private final String message;
     private final UploadMode uploadMode;
     private final Integer size;
-    private final DateTime createdAt;
-    private final DateTime processedAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime processedAt;
 
     Upload(@JsonProperty("msg") String message,
-            @JsonProperty("progress") Double progress,
-            @JsonProperty("status") String status,
-            @JsonProperty("fullUpload") @JsonDeserialize(using = BooleanDeserializer.class) Boolean fullUpload,
-            @JsonProperty("uri") String uri,
-            @JsonProperty("createdAt") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime createdAt,
-            @JsonProperty("fileSize") Integer size,
-            @JsonProperty("processedAt") @JsonDeserialize(using = GDDateTimeDeserializer.class) DateTime processedAt) {
+           @JsonProperty("progress") Double progress,
+           @JsonProperty("status") String status,
+           @JsonProperty("fullUpload") @JsonDeserialize(using = BooleanDeserializer.class) Boolean fullUpload,
+           @JsonProperty("uri") String uri,
+           @JsonProperty("createdAt") //    TODO - ISO: @JsonDeserialize(using = GDDateTimeDeserializer.class)
+           @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                   LocalDateTime createdAt,
+           @JsonProperty("fileSize") Integer size,
+           @JsonProperty("processedAt") //    TODO - ISO: @JsonDeserialize(using = GDDateTimeDeserializer.class)
+           @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                   LocalDateTime processedAt) {
 
         this.uri = uri;
         this.status = status;
@@ -101,14 +106,14 @@ public class Upload {
     /**
      * @return date of creation of this upload
      */
-    public DateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     /**
      * @return date when the upload was processed or {@code null} if upload is still being processed
      */
-    public DateTime getProcessedAt() {
+    public LocalDateTime getProcessedAt() {
         return processedAt;
     }
 

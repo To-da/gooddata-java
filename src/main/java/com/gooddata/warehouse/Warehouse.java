@@ -5,26 +5,22 @@
  */
 package com.gooddata.warehouse;
 
-import static com.gooddata.util.Validate.notNull;
-import static com.gooddata.util.Validate.notNullState;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gooddata.project.Environment;
-import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
-import com.gooddata.util.ISODateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.DateTime;
+import com.gooddata.project.Environment;
+import com.gooddata.util.GoodDataToStringBuilder;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+
+import static com.gooddata.util.Validate.notNull;
+import static com.gooddata.util.Validate.notNullState;
 
 /**
  * Warehouse
@@ -48,8 +44,8 @@ public class Warehouse {
     private String description;
 
     private final String authorizationToken;
-    private DateTime created;
-    private DateTime updated;
+    private LocalDateTime created;
+    private LocalDateTime updated;
     private String createdBy;
     private String updatedBy;
     private String status;
@@ -68,7 +64,7 @@ public class Warehouse {
         this.description = description;
     }
 
-    public Warehouse(String title, String authToken, String description, DateTime created, DateTime updated,
+    public Warehouse(String title, String authToken, String description, LocalDateTime created, LocalDateTime updated,
                      String createdBy, String updatedBy, String status, String environment, String connectionUrl,
                      Map<String, String> links) {
         this(title, authToken, description);
@@ -85,8 +81,10 @@ public class Warehouse {
     @JsonCreator
     public Warehouse(@JsonProperty("title") String title, @JsonProperty("authorizationToken") String authToken,
                      @JsonProperty("description") String description,
-                     @JsonProperty("created") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime created,
-                     @JsonProperty("updated") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime updated,
+                     @JsonProperty("created") //TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                 LocalDateTime created,
+                     @JsonProperty("updated") //TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                 LocalDateTime updated,
                      @JsonProperty("createdBy") String createdBy, @JsonProperty("updatedBy") String updatedBy,
                      @JsonProperty("status") String status, @JsonProperty("environment") String environment,
                      @JsonProperty("connectionUrl") String connectionUrl,
@@ -124,13 +122,13 @@ public class Warehouse {
         this.description = description;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getCreated() {
+//TODO ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getUpdated() {
+//TODO ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getUpdated() {
         return updated;
     }
 

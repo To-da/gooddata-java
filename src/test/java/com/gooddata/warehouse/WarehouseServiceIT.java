@@ -14,12 +14,12 @@ import com.gooddata.collections.PageableList;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matchers;
-import org.joda.time.DateTime;
 import org.springframework.web.client.RestClientException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static com.gooddata.util.ResourceUtils.OBJECT_MAPPER;
@@ -80,7 +80,7 @@ public class WarehouseServiceIT extends AbstractGoodDataIT {
         warehouse = readObjectFromResource(WAREHOUSE, Warehouse.class);
         warehouseSchema = readObjectFromResource(WAREHOUSE_SCHEMA, WarehouseSchema.class);
         s3Credentials = new WarehouseS3Credentials(REGION, ACCESS_KEY, SECRET_KEY);
-        s3CredentialsWithLinks = new WarehouseS3Credentials(REGION, ACCESS_KEY, SECRET_KEY, DateTime.now(), LINKS);
+        s3CredentialsWithLinks = new WarehouseS3Credentials(REGION, ACCESS_KEY, SECRET_KEY, LocalDateTime.now(), LINKS);
     }
 
     @Test

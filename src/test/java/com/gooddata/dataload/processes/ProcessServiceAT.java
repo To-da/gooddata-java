@@ -11,7 +11,6 @@ import com.gooddata.collections.MultiPageList;
 import com.gooddata.collections.PageableList;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.joda.time.Duration;
 import org.springframework.core.io.ClassPathResource;
 import org.testng.annotations.Test;
 
@@ -19,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collection;
 
 import static com.gooddata.dataload.processes.ProcessIdMatcher.hasSameProcessIdAs;
@@ -62,7 +62,7 @@ public class ProcessServiceAT extends AbstractGoodDataAT {
     @Test(groups = "process", dependsOnMethods = "createProcess")
     public void createSchedule() {
         schedule = gd.getProcessService().createSchedule(project, new Schedule(process, "sdktest.grf", "0 0 * * *"));
-        schedule.setReschedule(Duration.standardMinutes(15));
+        schedule.setReschedule(Duration.ofMinutes(15));
         schedule.setName("sdkTestSchedule");
 
         assertThat(schedule, notNullValue());
@@ -99,7 +99,7 @@ public class ProcessServiceAT extends AbstractGoodDataAT {
     @Test(groups = "process", dependsOnMethods = "createSchedule")
     public void updateSchedule() {
         schedule.setState(ScheduleState.DISABLED);
-        schedule.setReschedule(Duration.standardMinutes(26));
+        schedule.setReschedule(Duration.ofMinutes(26));
 
         schedule = gd.getProcessService().updateSchedule(schedule);
 

@@ -5,16 +5,17 @@
  */
 package com.gooddata.dataload.processes;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.gooddata.gdc.ErrorStructure;
 import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
-import com.gooddata.util.ISODateTimeSerializer;
-import org.joda.time.DateTime;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static com.gooddata.util.Validate.notEmpty;
@@ -35,20 +36,24 @@ public class ProcessExecutionDetail {
     private static final String STATUS_OK = "OK";
     private final String status;
 
-    private final DateTime created;
-    private final DateTime started;
-    private final DateTime updated;
-    private final DateTime finished;
+    private final LocalDateTime created;
+    private final LocalDateTime started;
+    private final LocalDateTime updated;
+    private final LocalDateTime finished;
 
     private final ErrorStructure error;
     private final Map<String,String> links;
 
     @JsonCreator
     private ProcessExecutionDetail(@JsonProperty("status") String status,
-                                   @JsonProperty("created") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime created,
-                                   @JsonProperty("started") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime started,
-                                   @JsonProperty("updated") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime updated,
-                                   @JsonProperty("finished") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime finished,
+                                   @JsonProperty("created") //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                           LocalDateTime created,
+                                   @JsonProperty("started") //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                           LocalDateTime started,
+                                   @JsonProperty("updated") //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                           LocalDateTime updated,
+                                   @JsonProperty("finished") //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                           LocalDateTime finished,
                                    @JsonProperty("error") ErrorStructure error,
                                    @JsonProperty("links") Map<String, String> links) {
         this.status = notEmpty(status, "status");
@@ -64,23 +69,23 @@ public class ProcessExecutionDetail {
         return status;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getCreated() {
+    //    TODO - ISO:     @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getStarted() {
+    //    TODO - ISO:     @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getStarted() {
         return started;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getUpdated() {
+    //    TODO - ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getFinished() {
+    //    TODO - ISO:    @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getFinished() {
         return finished;
     }
 

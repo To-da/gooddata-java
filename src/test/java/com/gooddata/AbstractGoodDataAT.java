@@ -5,6 +5,7 @@
  */
 package com.gooddata;
 
+import com.gooddata.authentication.LoginPasswordAuthentication;
 import com.gooddata.md.Attribute;
 import com.gooddata.md.Metric;
 import com.gooddata.md.ProjectDashboard;
@@ -12,12 +13,12 @@ import com.gooddata.md.ScheduledMail;
 import com.gooddata.md.report.Report;
 import com.gooddata.md.report.ReportDefinition;
 import com.gooddata.project.Project;
-import com.gooddata.authentication.LoginPasswordAuthentication;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.joda.time.LocalDate;
 import org.testng.annotations.AfterSuite;
+
+import java.time.LocalDateTime;
 
 /**
  * Parent for acceptance tests
@@ -25,7 +26,7 @@ import org.testng.annotations.AfterSuite;
 public abstract class AbstractGoodDataAT {
 
     protected static final String title =
-            "sdktest " + new LocalDate() + " " + System.getenv("BUILD_NUMBER");
+            "sdktest " + LocalDateTime.now() + " " + System.getenv("BUILD_NUMBER");
 
     protected static final GoodData gd =
             new GoodData(

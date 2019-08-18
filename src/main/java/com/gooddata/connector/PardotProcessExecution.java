@@ -5,10 +5,9 @@
  */
 package com.gooddata.connector;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.gooddata.util.GDDateSerializer;
 import com.gooddata.util.GoodDataToStringBuilder;
-import org.joda.time.LocalDate;
+
+import java.time.LocalDate;
 
 /**
  * Pardot connector process execution (i.e. definition for single ETL run). Serialization only.
@@ -26,7 +25,6 @@ public class PardotProcessExecution implements ProcessExecution {
         this.incremental = incremental;
     }
 
-    @JsonSerialize(using = GDDateSerializer.class)
     public LocalDate getChangesFrom() {
         return changesFrom;
     }

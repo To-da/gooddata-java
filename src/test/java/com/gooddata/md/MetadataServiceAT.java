@@ -12,9 +12,9 @@ import com.gooddata.md.report.Filter;
 import com.gooddata.md.report.GridReportDefinitionContent;
 import com.gooddata.md.report.MetricElement;
 import com.gooddata.md.report.Report;
-import org.joda.time.LocalDate;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -151,7 +151,7 @@ public class MetadataServiceAT extends AbstractGoodDataAT {
         scheduledMail = md.createObj(project,
                 (new ScheduledMail("Scheduled Mail Title", "Scheduled Mail Summary"))
                         .setRecurrency("0:0:0:1*12:0:0")
-                        .setStartDate(new LocalDate(2012, 6, 5))
+                        .setStartDate(LocalDate.of(2012, 6, 5))
                         .setTimeZone("America/Los_Angeles")
                         .addToAddress(getProperty("login"))
                         .addBccAddress(getProperty("login"))

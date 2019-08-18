@@ -13,13 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
-import com.gooddata.util.ISODateTimeSerializer;
-import org.joda.time.DateTime;
 import org.springframework.web.util.UriTemplate;
+
+import java.time.LocalDateTime;
 
 import static com.gooddata.util.Validate.notNullState;
 
@@ -40,7 +37,7 @@ public class WarehouseS3Credentials {
     @JsonView(UpdateView.class)
     private final String accessKey;
 
-    private final DateTime updated;
+    private final LocalDateTime updated;
 
     @JsonView(UpdateView.class)
     private String secretKey;
@@ -64,8 +61,8 @@ public class WarehouseS3Credentials {
     protected WarehouseS3Credentials(@JsonProperty("region") final String region,
                                      @JsonProperty("accessKey") final String accessKey,
                                      @JsonProperty("secretKey") final String secretKey,
-                                     @JsonProperty("updated") @JsonDeserialize(using = ISODateTimeDeserializer.class)
-                                         final DateTime updated,
+                                     @JsonProperty("updated") // TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                         final LocalDateTime updated,
                                      @JsonProperty("links") final Links links) {
         this.region = region;
         this.accessKey = accessKey;
@@ -77,8 +74,8 @@ public class WarehouseS3Credentials {
     /**
      * @return the date and time of last modification
      */
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getUpdated() {
+//    TODO - ISO: @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getUpdated() {
         return updated;
     }
 

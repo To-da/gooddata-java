@@ -5,22 +5,18 @@
  */
 package com.gooddata.connector;
 
-import static com.gooddata.util.Validate.notNullState;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
-import com.gooddata.util.ISODateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.DateTime;
+import com.gooddata.util.GoodDataToStringBuilder;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+
+import static com.gooddata.util.Validate.notNullState;
 
 /**
  * Connector process (i.e. single ETL run) status used in integration object. Deserialization only.
@@ -34,14 +30,16 @@ public class IntegrationProcessStatus {
     private static final String SELF_LINK = "self";
 
     private final Status status;
-    private final DateTime started;
-    private final DateTime finished;
+    private final LocalDateTime started;
+    private final LocalDateTime finished;
     private final Map<String, String> links;
 
     @JsonCreator
     protected IntegrationProcessStatus(@JsonProperty("status") Status status,
-                                       @JsonProperty("started") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime started,
-                                       @JsonProperty("finished") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime finished,
+                                       @JsonProperty("started")  //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                               LocalDateTime started,
+                                       @JsonProperty("finished")  //    TODO - ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                               LocalDateTime finished,
                                        @JsonProperty("links") Map<String, String> links) {
         this.status = status;
         this.started = started;
@@ -53,13 +51,13 @@ public class IntegrationProcessStatus {
         return status;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getStarted() {
+    //    TODO - ISO:   @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getStarted() {
         return started;
     }
 
-    @JsonSerialize(using = ISODateTimeSerializer.class)
-    public DateTime getFinished() {
+    //    TODO - ISO:  @JsonSerialize(using = ISODateTimeSerializer.class)
+    public LocalDateTime getFinished() {
         return finished;
     }
 

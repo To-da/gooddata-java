@@ -6,10 +6,9 @@
 package com.gooddata.dataload.processes;
 
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.testng.annotations.Test;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource;
@@ -40,6 +39,6 @@ public class ScheduleExecutionTest {
         assertThat(scheduleExecution.getStatus(), is("OK"));
         assertThat(scheduleExecution.getTrigger(), is("MANUAL"));
         assertThat(scheduleExecution.getProcessLastDeployedBy(), is("bear@gooddata.com"));
-        assertThat(scheduleExecution.getCreated(), is(new DateTime(2017, 5, 9, 21, 54, 50, 924, DateTimeZone.UTC)));
+        assertThat(scheduleExecution.getCreated(), is(LocalDateTime.of(2017, 5, 9, 21, 54, 50, 924)));
     }
 }

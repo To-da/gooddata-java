@@ -8,8 +8,6 @@ package com.gooddata.md.visualization
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.gooddata.executeafm.UriObjQualifier
-import org.joda.time.LocalDate
-import spock.lang.Specification
 import com.gooddata.executeafm.afm.AbsoluteDateFilter
 import com.gooddata.executeafm.afm.Afm
 import com.gooddata.executeafm.afm.AttributeItem
@@ -23,8 +21,10 @@ import com.gooddata.executeafm.resultspec.MeasureLocatorItem
 import com.gooddata.executeafm.resultspec.MeasureSortItem
 import com.gooddata.executeafm.resultspec.ResultSpec
 import com.gooddata.executeafm.resultspec.SortItem
+import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.time.LocalDate
 import java.util.function.Function
 
 import static VisualizationConverter.convertToAfm
@@ -50,7 +50,7 @@ class VisualizationConverterTest extends Specification {
                 [new AttributeItem(new UriObjQualifier("/uri/to/displayForm/1"), "attribute1", "attributeAlias")],
                 [
                         new PositiveAttributeFilter(new UriObjQualifier("/uri/to/displayForm/3"), ["ab", "cd"]),
-                        new AbsoluteDateFilter(new UriObjQualifier("/uri/to/dataSet/1"), new LocalDate("2000-08-30"), new LocalDate("2017-08-07"))
+                        new AbsoluteDateFilter(new UriObjQualifier("/uri/to/dataSet/1"), LocalDate.of(2000, 8, 30), LocalDate.of(2017, 8, 07))
                 ],
                 [
                         new MeasureItem(new VOSimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure/0"), null, null, []),

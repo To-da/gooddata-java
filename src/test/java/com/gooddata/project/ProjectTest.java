@@ -5,9 +5,10 @@
  */
 package com.gooddata.project;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.testng.annotations.Test;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import static com.gooddata.util.ResourceUtils.OBJECT_MAPPER;
 import static com.gooddata.util.ResourceUtils.readObjectFromResource;
@@ -39,8 +40,8 @@ public class ProjectTest {
         assertThat(project.getSummary(), is("DESC"));
         assertThat(project.getAuthor(), is("/gdc/account/profile/USER_ID"));
         assertThat(project.getContributor(), is("/gdc/account/profile/CONTRIB_USER_ID"));
-        assertThat(project.getCreated(), is(new DateTime(2014, 4, 11, 11, 43, 45, DateTimeZone.UTC)));
-        assertThat(project.getUpdated(), is(new DateTime(2014, 4, 11, 11, 43, 47, DateTimeZone.UTC)));
+        assertThat(project.getCreated(), is(LocalDateTime.of(2014, 4, 11, 11, 43, 45).atZone(ZoneOffset.UTC)));
+        assertThat(project.getUpdated(), is(LocalDateTime.of(2014, 4, 11, 11, 43, 47).atZone(ZoneOffset.UTC)));
 
         assertThat(project.getLdmThumbnailLink(), is("/gdc/projects/PROJECT_ID/ldm?thumbnail=1"));
         assertThat(project.getLdmThumbnailUri(), is("/gdc/projects/PROJECT_ID/ldm?thumbnail=1"));

@@ -5,21 +5,19 @@
  */
 package com.gooddata.dataload.processes;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
+import com.gooddata.util.GoodDataToStringBuilder;
 import org.springframework.web.util.UriTemplate;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +49,10 @@ public class Schedule {
     private String state;
     private String cron;
     private String timezone;
-    private Integer reschedule;
+    private Long reschedule;
     private String triggerScheduleId;
     private String name;
-    private final DateTime nextExecutionTime;
+    private final LocalDateTime nextExecutionTime;
     private final int consecutiveFailedExecutionCount;
     private final Map<String, String> params;
     private final Map<String,String> links;
@@ -94,10 +92,11 @@ public class Schedule {
                      @JsonProperty("state") final String state,
                      @JsonProperty("cron") final String cron,
                      @JsonProperty("timezone") final String timezone,
-                     @JsonProperty("nextExecutionTime") @JsonDeserialize(using = ISODateTimeDeserializer.class) DateTime nextExecutionTime,
+                     @JsonProperty("nextExecutionTime") //TODO ISO: @JsonDeserialize(using = ISODateTimeDeserializer.class)
+                                 LocalDateTime nextExecutionTime,
                      @JsonProperty("consecutiveFailedExecutionCount") final int consecutiveFailedExecutionCount,
                      @JsonProperty("params") final Map<String, String> params,
-                     @JsonProperty("reschedule") final Integer reschedule,
+                     @JsonProperty("reschedule") final Long reschedule,
                      @JsonProperty("triggerScheduleId") final String triggerScheduleId,
                      @JsonProperty("name") final String name,
                      @JsonProperty("links") final Map<String, String> links) {
@@ -193,7 +192,7 @@ public class Schedule {
      * @return reschedule duration in minutes
      */
     @JsonProperty("reschedule")
-    public Integer getRescheduleInMinutes() {
+    public Long getRescheduleInMinutes() {
         return reschedule;
     }
 
@@ -203,7 +202,7 @@ public class Schedule {
      */
     @JsonIgnore
     public Duration getReschedule() {
-        return reschedule != null ? Duration.standardMinutes(getRescheduleInMinutes()) : null;
+        return reschedule != null ? Duration.ofMinutes(getRescheduleInMinutes()) : null;
     }
 
     /**
@@ -211,7 +210,7 @@ public class Schedule {
      * @param reschedule this duration should not be too low, because it can be rejected by REST API (e.g. 15 minutes or more)
      */
     public void setReschedule(Duration reschedule) {
-        this.reschedule = notNull(reschedule, "reschedule").toStandardMinutes().getMinutes();
+        this.reschedule = notNull(reschedule, "reschedule").toMinutes();
     }
 
     public String getTriggerScheduleId() {
@@ -231,12 +230,13 @@ public class Schedule {
     }
 
     @JsonIgnore
-    public void setTimezone(final DateTimeZone timezone) {
-        this.timezone = notNull(timezone, "timezone").getID();
+    public void setTimezone(final ZonedDateTime timezone) {
+        //TODO check - timezone IDs can be different joda vs jdk
+        this.timezone = notNull(timezone, "timezone").getZone().getId();
     }
 
     @JsonIgnore
-    public DateTime getNextExecutionTime() {
+    public LocalDateTime getNextExecutionTime() {
         return nextExecutionTime;
     }
 

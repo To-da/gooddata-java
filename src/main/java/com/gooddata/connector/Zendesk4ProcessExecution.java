@@ -5,21 +5,19 @@
  */
 package com.gooddata.connector;
 
-import static com.gooddata.connector.ConnectorType.ZENDESK4;
-import static com.gooddata.util.Validate.notEmpty;
-import static com.gooddata.util.Validate.notNull;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gooddata.util.GoodDataToStringBuilder;
-import com.gooddata.util.ISODateTimeSerializer;
-import org.joda.time.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static com.gooddata.connector.ConnectorType.ZENDESK4;
+import static com.gooddata.util.Validate.notEmpty;
+import static com.gooddata.util.Validate.notNull;
 
 /**
  * Zendesk 4 (Insights) connector process execution (i.e. definition for single ETL run). Serialization only.
@@ -34,7 +32,7 @@ public class Zendesk4ProcessExecution implements ProcessExecution {
 
     private Boolean recoveryInProgress;
 
-    private Map<String, DateTime> startTimes;
+    private Map<String, LocalDateTime> startTimes;
 
     private DownloadParams downloadParams;
 
@@ -87,13 +85,13 @@ public class Zendesk4ProcessExecution implements ProcessExecution {
     }
 
     @JsonAnyGetter
-    @JsonSerialize(contentUsing = ISODateTimeSerializer.class)
-    public Map<String, DateTime> getStartTimes() {
+    //    TODO - ISO: @JsonSerialize(contentUsing = ISODateTimeSerializer.class)
+    public Map<String, LocalDateTime> getStartTimes() {
         return startTimes;
     }
 
 
-    public void setStartTime(final String resource, final DateTime startTime) {
+    public void setStartTime(final String resource, final LocalDateTime startTime) {
         notEmpty(resource, "resource");
         notNull(startTime, "startTime");
 
